@@ -109,6 +109,15 @@ class ebird {
             }
         }).then(parseXmlPromise);
     }
+
+    regions() {
+        return request({
+            uri: 'http://ebird.org/ebird/listing/regions',
+            headers: {
+                    'Cookie': `EBIRD_SESSIONID=${this.session}`
+            }
+        }).then(parseXmlPromise);
+    }
 };
 
 module.exports = ebird;
