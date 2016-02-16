@@ -14,10 +14,12 @@ var parseXml = (xml) => {
             var listItems = [];
             listItem['life-list-table-item'].forEach(tableItem => {
                 tableItem = tableItem.$;
-                listItems.push({
-                    number: tableItem.number,
-                    time: tableItem.time,
-                });
+                if (tableItem.number != '--') {
+                    listItems.push({
+                        number: tableItem.number,
+                        time: tableItem.time,
+                    });
+                }
             });
             data.push({
                 name: listItem.string[0]._,
@@ -81,7 +83,7 @@ class ebird {
         });
     }
 
-    counties() {
+    countries() {
         return request({
             uri: 'http://ebird.org/ebird/listing/country',
             headers: {
@@ -93,6 +95,15 @@ class ebird {
     states() {
         return request({
             uri: 'http://ebird.org/ebird/listing/states',
+            headers: {
+                    'Cookie': `EBIRD_SESSIONID=${this.session}`
+            }
+        }).then(parseXmlPromise);
+    }
+
+    counties() {
+        return request({
+            uri: 'http://ebird.org/ebird/listing/counties',
             headers: {
                     'Cookie': `EBIRD_SESSIONID=${this.session}`
             }
