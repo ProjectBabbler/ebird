@@ -92,7 +92,7 @@ class ebird {
 
     states() {
         return request({
-            uri: 'http://ebird.org/ebird/listing/country',
+            uri: 'http://ebird.org/ebird/listing/states',
             headers: {
                     'Cookie': `EBIRD_SESSIONID=${this.session}`
             }
