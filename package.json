@@ -24,5 +24,8 @@
   },
   "keywords": [
     "ebird"
-  ]
+  ],
+  "devDependencies": {
+    "eslint": "2.2.0"
+  }
 }

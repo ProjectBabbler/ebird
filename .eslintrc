@@ -1,0 +1,47 @@
+{
+    "rules": {
+        "arrow-spacing": 2,
+        "constructor-super": 2,
+        "keyword-spacing": 2,
+        "space-before-blocks": 2,
+        "no-case-declarations": 0,
+        "no-empty-pattern": 2,
+        "no-spaced-func": 2,
+        "no-trailing-spaces": 2,
+        "indent": [2, 4, {"SwitchCase": 1}],
+        "quotes": [
+            2,
+            "single",
+            "avoid-escape"
+        ],
+        "linebreak-style": [
+            2,
+            "unix"
+        ],
+        "semi": [
+            2,
+            "always"
+        ],
+        "curly": 2,
+        "comma-dangle": 0,
+        "jsx-quotes": 1,
+        "prefer-spread": 2,
+        "no-console": 0,
+        "no-dupe-class-members": 2,
+        "no-this-before-super": 2,
+        "no-unused-vars": [2, {"vars": "all", "args": "none"}],
+        "prefer-arrow-callback": 2,
+    },
+    "env": {
+        "es6": true,
+        "node": true,
+        "browser": true,
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true,
+        }
+    }
+}

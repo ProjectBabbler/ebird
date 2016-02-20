@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var phantom = require('phantom');
 var Totals = require('./Totals');
@@ -18,11 +18,11 @@ class ebird {
 
     auth(username, password) {
         return new Promise((resolve, reject) => {
-            phantom.create(function (ph) {
-                ph.createPage(function (page) {
-                    page.open("https://secure.birds.cornell.edu/cassso/login?service=https%3A%2F%2Febird.org%2Febird%2Flogin%2Fcas%3Fportal%3Debird", function (status) {
-                        page.set('onLoadFinished', function() {
-                            page.get('cookies', function(cookies) {
+            phantom.create((ph) => {
+                ph.createPage((page) => {
+                    page.open('https://secure.birds.cornell.edu/cassso/login?service=https%3A%2F%2Febird.org%2Febird%2Flogin%2Fcas%3Fportal%3Debird', (status) => {
+                        page.set('onLoadFinished', () => {
+                            page.get('cookies', (cookies) => {
                                 var value = '';
                                 cookies.forEach(cookie => {
                                     if (cookie.name == 'EBIRD_SESSIONID') {
@@ -38,9 +38,9 @@ class ebird {
                             });
                         });
 
-                        page.evaluate(function (username, password) {
-                            document.getElementById("input-user-name").value = username;
-                            document.getElementById("input-password").value = password;
+                        page.evaluate((username, password) => {
+                            document.getElementById('input-user-name').value = username;
+                            document.getElementById('input-password').value = password;
                             document.getElementsByTagName('form')[0].submit();
                         }, () => {}, username, password);
                     });
@@ -50,6 +50,6 @@ class ebird {
             this.session = value;
         });
     }
-};
+}
 
 module.exports = ebird;
