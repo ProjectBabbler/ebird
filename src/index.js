@@ -1,51 +1,19 @@
 'use strict'
 
-var request = require('request-promise');
 var phantom = require('phantom');
-var parseString = require('xml2js').parseString;
-
-var parseXml = (xml) => {
-    var data = [];
-    var content = xml.array.array;
-    if (content) {
-        content.forEach(listItem => {
-            data[listItem.string] = {};
-            var first = listItem['life-list-table-item'][0].$;
-            var listItems = [];
-            listItem['life-list-table-item'].forEach(tableItem => {
-                tableItem = tableItem.$;
-                if (tableItem.number != '--') {
-                    listItems.push({
-                        number: tableItem.number,
-                        time: tableItem.time,
-                    });
-                }
-            });
-            data.push({
-                name: listItem.string[0]._,
-                code: first['list-type'],
-                items: listItems,
-            })
-        });
-    }
-    return data;
-};
-
-var parseXmlPromise = (xml) => {
-    return new Promise((resolve, reject) => {
-        parseString(xml, (err, result) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(parseXml(result));
-            }
-        });
-    });
-};
+var Totals = require('./Totals');
 
 class ebird {
     constructor() {
         this.session = null;
+        this.bindTo('totals', Totals);
+    }
+
+    bindTo(key, object) {
+        this[key] = {};
+        for (var name in object) {
+            this[key][name] = object[name].bind(this);
+        }
     }
 
     auth(username, password) {
@@ -81,42 +49,6 @@ class ebird {
         }).then((value) => {
             this.session = value;
         });
-    }
-
-    countries() {
-        return request({
-            uri: 'http://ebird.org/ebird/listing/country',
-            headers: {
-                    'Cookie': `EBIRD_SESSIONID=${this.session}`
-            }
-        }).then(parseXmlPromise);
-    }
-
-    states() {
-        return request({
-            uri: 'http://ebird.org/ebird/listing/states',
-            headers: {
-                    'Cookie': `EBIRD_SESSIONID=${this.session}`
-            }
-        }).then(parseXmlPromise);
-    }
-
-    counties() {
-        return request({
-            uri: 'http://ebird.org/ebird/listing/counties',
-            headers: {
-                    'Cookie': `EBIRD_SESSIONID=${this.session}`
-            }
-        }).then(parseXmlPromise);
-    }
-
-    regions() {
-        return request({
-            uri: 'http://ebird.org/ebird/listing/regions',
-            headers: {
-                    'Cookie': `EBIRD_SESSIONID=${this.session}`
-            }
-        }).then(parseXmlPromise);
     }
 };
 
