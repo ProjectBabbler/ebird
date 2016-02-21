@@ -38,7 +38,7 @@ Constructs an instance of the ebird api.  `var instance = new ebird();`
 ### `auth(username, password)`
 Authenticates an ebird instance
 
-### `regions()` `countries()` `states()` `counties()`
+### `totals.regions()` `totals.countries()` `totals.states()` `totals.counties()`
 This functions all work the same.  They return a personal list of counts for a user for the given location.
 
 ```
