@@ -2,6 +2,21 @@
 
 var phantom = require('phantom');
 var Totals = require('./Totals');
+var request = require('request-promise');
+var CSVConverter = require('csvtojson').Converter;
+var csvConverter = new CSVConverter();
+
+
+var parseCSVPromise = (csv) => {
+    return new Promise((resolve, reject) => {
+        csvConverter.fromString(csv, (err, obj) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(obj);
+        });
+    });
+};
 
 class ebird {
     constructor() {
@@ -49,6 +64,25 @@ class ebird {
         }).then((value) => {
             this.session = value;
         });
+    }
+
+    list(code, time, year) {
+        return request({
+            uri: 'http://ebird.org/ebird/MyEBird',
+            qs: {
+                cmd: 'list',
+                r: code,
+                time: time,
+                sortKey: 'obs_dt',
+                o: 'desc',
+                year: year,
+                fmt: 'csv',
+            },
+            headers: {
+                'Cookie': `EBIRD_SESSIONID=${this.session}`
+            },
+        }).then(parseCSVPromise);
+
     }
 }
 
