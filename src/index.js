@@ -4,11 +4,10 @@ var phantom = require('phantom');
 var Totals = require('./Totals');
 var request = require('request-promise');
 var CSVConverter = require('csvtojson').Converter;
-var csvConverter = new CSVConverter();
-
 
 var parseCSVPromise = (csv) => {
     return new Promise((resolve, reject) => {
+        var csvConverter = new CSVConverter();
         csvConverter.fromString(csv, (err, obj) => {
             if (err) {
                 reject(err);
