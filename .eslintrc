@@ -30,7 +30,6 @@
         "no-dupe-class-members": 2,
         "no-this-before-super": 2,
         "no-unused-vars": [2, {"vars": "all", "args": "none"}],
-        "prefer-arrow-callback": 2,
     },
     "env": {
         "es6": true,

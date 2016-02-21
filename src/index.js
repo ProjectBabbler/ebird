@@ -18,13 +18,13 @@ class ebird {
 
     auth(username, password) {
         return new Promise((resolve, reject) => {
-            phantom.create((ph) => {
-                ph.createPage((page) => {
+            phantom.create(function(ph) {
+                ph.createPage(function(page) {
                     page.open('https://secure.birds.cornell.edu/cassso/login?service=https%3A%2F%2Febird.org%2Febird%2Flogin%2Fcas%3Fportal%3Debird', (status) => {
-                        page.set('onLoadFinished', () => {
-                            page.get('cookies', (cookies) => {
+                        page.set('onLoadFinished', function() {
+                            page.get('cookies', function(cookies) {
                                 var value = '';
-                                cookies.forEach(cookie => {
+                                cookies.forEach(function(cookie) {
                                     if (cookie.name == 'EBIRD_SESSIONID') {
                                         value = cookie.value;
                                     }
@@ -38,7 +38,7 @@ class ebird {
                             });
                         });
 
-                        page.evaluate((username, password) => {
+                        page.evaluate(function(username, password) {
                             document.getElementById('input-user-name').value = username;
                             document.getElementById('input-password').value = password;
                             document.getElementsByTagName('form')[0].submit();
