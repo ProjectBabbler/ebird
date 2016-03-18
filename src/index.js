@@ -66,6 +66,10 @@ class ebird {
     }
 
     list(code, time, year) {
+        var rtype = null;
+        if (code == 'ABA') {
+            rtype = 'custom';
+        }
         return request({
             uri: 'http://ebird.org/ebird/MyEBird',
             qs: {
@@ -76,12 +80,12 @@ class ebird {
                 o: 'desc',
                 year: year,
                 fmt: 'csv',
+                rtype: rtype,
             },
             headers: {
                 'Cookie': `EBIRD_SESSIONID=${this.session}`
             },
         }).then(parseCSVPromise);
-
     }
 }
 

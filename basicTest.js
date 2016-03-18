@@ -47,6 +47,21 @@ instance.auth('projectbabblertest1', 'babblebabble').then(() => {
         console.log('CA 2016 list has 4 results');
     });
 }).then(() => {
+    return instance2.list('ABA', 'life').then(results => {
+        expect(results.length).to.equal(5);
+        var species = results.map(row => {
+            return row.Species;
+        });
+        expect(species).to.deep.equal([
+            'Rock Pigeon',
+            'Double-crested Cormorant',
+            'Western Gull',
+            'Black Phoebe',
+            'White-crowned Sparrow',
+        ]);
+        console.log('ABA life list has 4 results');
+    });
+}).then(() => {
     console.log('Tests Pass');
     process.exit(0);
 }).catch((e) => {
