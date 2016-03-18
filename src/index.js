@@ -66,8 +66,33 @@ class ebird {
     }
 
     list(code, time, year) {
+        var lowerCaseCode = code.toLowerCase();
+        var customList = [
+            'aba',
+            'poc',
+            'world',
+            'whs',
+            'ehs',
+            'north_america',
+            'south_america',
+            'cen',
+            'caribbean',
+            'aou',
+            'lower48',
+            'wpa',
+            'eur',
+            'asia',
+            'eus',
+            'afr',
+            'saf',
+            'aus',
+            'aut',
+            'spo',
+            'aoc',
+            'ioc',
+        ];
         var rtype = null;
-        if (code == 'ABA') {
+        if (customList.indexOf(lowerCaseCode) != -1) {
             rtype = 'custom';
         }
         return request({
