@@ -65,7 +65,12 @@ class ebird {
         });
     }
 
-    list(code, time, year) {
+    list(code, time, year, opts) {
+        opts = opts || {};
+        var options = {
+            sortKey: opts.sortKey || 'taxon_order',
+            o: opts.o || 'asc',
+        };
         var lowerCaseCode = code.toLowerCase();
         var customList = [
             'aba',
@@ -101,8 +106,8 @@ class ebird {
                 cmd: 'list',
                 r: code,
                 time: time,
-                sortKey: 'obs_dt',
-                o: 'desc',
+                sortKey: options.sortKey,
+                o: options.o,
                 year: year,
                 fmt: 'csv',
                 rtype: rtype,

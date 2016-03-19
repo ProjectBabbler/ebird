@@ -53,13 +53,13 @@ instance.auth('projectbabblertest1', 'babblebabble').then(() => {
             return row.Species;
         });
         expect(species).to.deep.equal([
-            'Rock Pigeon',
             'Double-crested Cormorant',
             'Western Gull',
+            'Rock Pigeon',
             'Black Phoebe',
             'White-crowned Sparrow',
         ]);
-        console.log('ABA life list has 4 results');
+        console.log('ABA life list has 5 results');
     });
 }).then(() => {
     console.log('Tests Pass');
