@@ -17,7 +17,7 @@ var parseListResponse = (html) => {
             var speciesTd = $(tds[1]);
             var name = speciesTd.text().split(' - ');
             var speciesLink = speciesTd.find('a').attr('href');
-            var spp = extract(speciesLink).qs.spp;
+            var speciesCode = extract(speciesLink).qs.spp;
 
             var location = $(tds[2]).text();
             var sp = $(tds[3]).text();
@@ -29,7 +29,7 @@ var parseListResponse = (html) => {
                 location: location,
                 sp: sp,
                 date: date,
-                spp: spp,
+                speciesCode: speciesCode,
             });
         }
     });
