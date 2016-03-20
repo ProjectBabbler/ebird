@@ -3,18 +3,38 @@
 var phantom = require('phantom');
 var Totals = require('./Totals');
 var request = require('request-promise');
-var CSVConverter = require('csvtojson').Converter;
+var cheerio = require('cheerio');
+var extract = require('url-querystring');
 
-var parseCSVPromise = (csv) => {
-    return new Promise((resolve, reject) => {
-        var csvConverter = new CSVConverter();
-        csvConverter.fromString(csv, (err, obj) => {
-            if (err) {
-                reject(err);
-            }
-            resolve(obj);
-        });
+var parseListResponse = (html) => {
+    var $ = cheerio.load(html);
+    var trs = $('#content table tr');
+    var results = [];
+    trs.each((i, elem) => {
+        var tds = $(elem).find('td');
+        if (tds.length == 5) {
+            var row = $(tds[0]).text();
+            var speciesTd = $(tds[1]);
+            var name = speciesTd.text().split(' - ');
+            var speciesLink = speciesTd.find('a').attr('href');
+            var spp = extract(speciesLink).qs.spp;
+
+            var location = $(tds[2]).text();
+            var sp = $(tds[3]).text();
+            var date = $(tds[4]).text();
+            results.push({
+                rowNumber: row,
+                commonName: name[0],
+                scientificName: name[1],
+                location: location,
+                sp: sp,
+                date: date,
+                spp: spp,
+            });
+        }
     });
+
+    return results;
 };
 
 class ebird {
@@ -109,13 +129,12 @@ class ebird {
                 sortKey: options.sortKey,
                 o: options.o,
                 year: year,
-                fmt: 'csv',
                 rtype: rtype,
             },
             headers: {
                 'Cookie': `EBIRD_SESSIONID=${this.session}`
             },
-        }).then(parseCSVPromise);
+        }).then(parseListResponse);
     }
 }
 

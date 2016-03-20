@@ -36,7 +36,7 @@ instance.auth('projectbabblertest1', 'babblebabble').then(() => {
     return instance2.list('US-CA', 'year', 2016).then(results => {
         expect(results.length).to.equal(4);
         var species = results.map(row => {
-            return row.Species;
+            return row.commonName;
         });
         expect(species).to.deep.equal([
             'Double-crested Cormorant',
@@ -50,7 +50,7 @@ instance.auth('projectbabblertest1', 'babblebabble').then(() => {
     return instance2.list('ABA', 'life').then(results => {
         expect(results.length).to.equal(5);
         var species = results.map(row => {
-            return row.Species;
+            return row.commonName;
         });
         expect(species).to.deep.equal([
             'Double-crested Cormorant',
