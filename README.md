@@ -63,14 +63,13 @@ Retrieves an array of objects for a bird list.
 // Example response. ebird.list('US-CA', 'life');
 [
     {
-        'Row #': 1,
-        Species: 'Double-crested Cormorant',
-        Count: 2,
-        Location: 'Fort Baker',
-        'S/P': 'US-CA',
-        Date: '20 Feb 2016',
-        LocID: 'L123456',
-        SubID: 'S123456789'
+        commonName: "Black-bellied Whistling-Duck",
+        date: "24 Apr 2015",
+        location: "Baytown Nature Center (UTC 039)",
+        rowNumber: "1",
+        scientificName: "Dendrocygna autumnalis",
+        sp: "US-TX",
+        speciesCode: "bbwduc",
     },
     ...
 ]
