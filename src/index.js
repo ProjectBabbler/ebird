@@ -2,6 +2,7 @@
 
 var phantom = require('phantom');
 var Totals = require('./Totals');
+var Alerts = require('./Alerts');
 var request = require('request-promise');
 var cheerio = require('cheerio');
 var extract = require('url-querystring');
@@ -41,6 +42,7 @@ class ebird {
     constructor() {
         this.session = null;
         this.bindTo('totals', Totals);
+        this.bindTo('alerts', Alerts);
     }
 
     bindTo(key, object) {

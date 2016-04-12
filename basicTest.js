@@ -62,6 +62,16 @@ instance.auth('projectbabblertest1', 'babblebabble').then(() => {
         console.log('ABA life list has 5 results');
     });
 }).then(() => {
+    return instance2.alerts.rarities('US-CA').then(results => {
+        expect(results.length).to.be.above(1);
+        console.log('Pulled some Rarities for CA');
+    });
+}).then(() => {
+    return instance2.alerts.needs('US-CA').then(results => {
+        expect(results.length).to.be.above(1);
+        console.log('Pulled some Needs for CA');
+    });
+}).then(() => {
     console.log('Tests Pass');
     process.exit(0);
 }).catch((e) => {
