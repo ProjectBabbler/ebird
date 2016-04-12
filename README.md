@@ -76,5 +76,32 @@ Retrieves an array of objects for a bird list.
 ```
 
 
+### alerts
+### `alerts.needs(code)` `alerts.rarities(code)`
+Returns an array of sightings for either a needs or a rarities list.
+
+```
+{
+    species: {
+        name: 'Pin-tailed Whydah ',
+        scientificName: 'Vidua macroura'
+    },
+    confirmed: true,
+    count: '1',
+    date: 'Apr 2, 2016 08:40',
+    location: {
+        name: 'Peck Rd. Water Conservation Park ',
+        lat: '34.10053',
+        long: '-118.01333'
+    },
+    checklist: 'http://ebird.org/ebird/view/checklist?subID=SUB_ID',
+    county: 'Los Angeles',
+    state: 'California, United States',
+    observer: 'eBirder User',
+    details: '',
+}
+```
+
+
 
 
