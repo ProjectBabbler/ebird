@@ -81,6 +81,8 @@ class ebird {
                         }, () => {}, username, password);
                     });
                 });
+            }, {
+                dnodeOpts: {weak: false}
             });
         }).then((value) => {
             this.session = value;
