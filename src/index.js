@@ -54,11 +54,11 @@ class ebird {
 
     auth(username, password) {
         return new Promise((resolve, reject) => {
-            phantom.create(function(ph) {
-                ph.createPage(function(page) {
-                    page.open('https://secure.birds.cornell.edu/cassso/login?service=https%3A%2F%2Febird.org%2Febird%2Flogin%2Fcas%3Fportal%3Debird', (status) => {
-                        page.set('onLoadFinished', function() {
-                            page.get('cookies', function(cookies) {
+            phantom.create().then(ph => {
+                ph.createPage().then(page => {
+                    return page.open('https://secure.birds.cornell.edu/cassso/login?service=https%3A%2F%2Febird.org%2Febird%2Flogin%2Fcas%3Fportal%3Debird').then(() => {
+                        page.on('onLoadFinished', function() {
+                            page.property('cookies').then(cookies => {
                                 var value = '';
                                 cookies.forEach(function(cookie) {
                                     if (cookie.name == 'EBIRD_SESSIONID') {
@@ -73,16 +73,13 @@ class ebird {
                                 }
                             });
                         });
-
                         page.evaluate(function(username, password) {
                             document.getElementById('input-user-name').value = username;
                             document.getElementById('input-password').value = password;
-                            document.getElementsByTagName('form')[0].submit();
-                        }, () => {}, username, password);
+                            document.getElementById('credentials').submit();
+                        }, username, password);
                     });
                 });
-            }, {
-                dnodeOpts: {weak: false}
             });
         }).then((value) => {
             this.session = value;
