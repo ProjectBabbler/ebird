@@ -122,7 +122,7 @@ class ebird {
             rtype = 'custom';
         }
         return request({
-            uri: 'http://ebird.org/ebird/MyEBird',
+            uri: 'http://ebird.org/ebird/myebird',
             qs: {
                 cmd: 'list',
                 r: code,
