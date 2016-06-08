@@ -2,7 +2,7 @@ var request = require('request-promise');
 
 var parseResults = (results) => {
     return results.table.map(row => {
-        let items = [];
+        var items = [];
         for (var i = 1; i < row.length; i++) {
             items.push(row[i]);
         }
