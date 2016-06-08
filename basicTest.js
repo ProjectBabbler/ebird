@@ -25,12 +25,26 @@ instance.auth('projectbabblertest1', 'babblebabble').then(() => {
     });
 }).then(() => {
     return instance.list('US-VA', 'life').then(results => {
-        //expect(results.length).to.equal(0);
+        expect(results.length).to.equal(0);
         console.log('VA life list returns zero results');
     });
 }).then(() => {
     return instance2.auth('projectbabblertest2', 'babblebabble').then(() => {
         console.log('successful login to test 2');
+    });
+}).then(() => {
+    return instance2.totals.countries().then(results => {
+        expect(results.length).to.equal(1);
+        expect(results).to.deep.equal([{
+            name: 'United States',
+            code: 'US',
+            items: [
+                { listType: 'US', time: 'life', number: '5', listable: true },
+                { listType: 'US', time: 'year', number: '5', listable: true },
+                { listType: 'US', time: 'month', number: '0', listable: true }
+            ],
+        }]);
+        console.log('Counties returns 1 results');
     });
 }).then(() => {
     return instance2.list('US-CA', 'year', 2016).then(results => {

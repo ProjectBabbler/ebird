@@ -1,42 +1,16 @@
 var request = require('request-promise');
-var parseString = require('xml2js').parseString;
 
-var parseXml = (xml) => {
-    var data = [];
-    var content = xml.array.array;
-    if (content) {
-        content.forEach(listItem => {
-            data[listItem.string] = {};
-            var first = listItem['life-list-table-item'][0].$;
-            var listItems = [];
-            listItem['life-list-table-item'].forEach(tableItem => {
-                tableItem = tableItem.$;
-                if (tableItem.number != '--') {
-                    listItems.push({
-                        number: tableItem.number,
-                        time: tableItem.time,
-                    });
-                }
-            });
-            data.push({
-                name: listItem.string[0]._,
-                code: first['list-type'],
-                items: listItems,
-            });
-        });
-    }
-    return data;
-};
-
-var parseXmlPromise = (xml) => {
-    return new Promise((resolve, reject) => {
-        parseString(xml, (err, result) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(parseXml(result));
-            }
-        });
+var parseResults = (results) => {
+    return results.table.map(row => {
+        let items = [];
+        for (var i = 1; i < row.length; i++) {
+            items.push(row[i]);
+        }
+        return {
+            name: row[0],
+            code: row[1].listType,
+            items: items
+        };
     });
 };
 
@@ -46,8 +20,9 @@ module.exports = {
             uri: 'http://ebird.org/ebird/listing/country',
             headers: {
                 'Cookie': `EBIRD_SESSIONID=${this.session}`
-            }
-        }).then(parseXmlPromise);
+            },
+            json: true
+        }).then(parseResults);
     },
 
     states: function() {
@@ -55,8 +30,9 @@ module.exports = {
             uri: 'http://ebird.org/ebird/listing/states',
             headers: {
                 'Cookie': `EBIRD_SESSIONID=${this.session}`
-            }
-        }).then(parseXmlPromise);
+            },
+            json: true
+        }).then(parseResults);
     },
 
     counties: function() {
@@ -64,8 +40,9 @@ module.exports = {
             uri: 'http://ebird.org/ebird/listing/counties',
             headers: {
                 'Cookie': `EBIRD_SESSIONID=${this.session}`
-            }
-        }).then(parseXmlPromise);
+            },
+            json: true
+        }).then(parseResults);
     },
 
     regions: function() {
@@ -73,7 +50,8 @@ module.exports = {
             uri: 'http://ebird.org/ebird/listing/regions',
             headers: {
                 'Cookie': `EBIRD_SESSIONID=${this.session}`
-            }
-        }).then(parseXmlPromise);
+            },
+            json: true
+        }).then(parseResults);
     },
 };

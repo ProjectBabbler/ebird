@@ -117,20 +117,18 @@ class ebird {
             'aoc',
             'ioc',
         ];
-        var rtype = null;
         if (customList.indexOf(lowerCaseCode) != -1) {
-            rtype = 'custom';
+            code = lowerCaseCode;
         }
         return request({
-            uri: 'http://ebird.org/ebird/myebird',
+            uri: 'http://ebird.org/ebird/MyEBird',
             qs: {
                 cmd: 'list',
-                r: code,
+                listType: code,
                 time: time,
                 sortKey: options.sortKey,
                 o: options.o,
                 year: year,
-                rtype: rtype,
             },
             headers: {
                 'Cookie': `EBIRD_SESSIONID=${this.session}`
