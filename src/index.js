@@ -117,19 +117,22 @@ class ebird {
             'aoc',
             'ioc',
         ];
+        let qs = {
+            cmd: 'list',
+            listType: code,
+            time: time,
+            sortKey: options.sortKey,
+            o: options.o,
+            year: year,
+        };
+
         if (customList.indexOf(lowerCaseCode) != -1) {
             code = lowerCaseCode;
+            qs.listCategory = 'default';
         }
         return request({
             uri: 'http://ebird.org/ebird/MyEBird',
-            qs: {
-                cmd: 'list',
-                listType: code,
-                time: time,
-                sortKey: options.sortKey,
-                o: options.o,
-                year: year,
-            },
+            qs: qs,
             headers: {
                 'Cookie': `EBIRD_SESSIONID=${this.session}`
             },

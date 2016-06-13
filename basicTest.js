@@ -76,6 +76,11 @@ instance.auth('projectbabblertest1', 'babblebabble').then(() => {
         console.log('ABA life list has 5 results');
     });
 }).then(() => {
+    return instance2.list('south_america', 'life').then(results => {
+        expect(results).to.deep.equal([]);
+        console.log('south_america life list has 0 results');
+    });
+}).then(() => {
     return instance2.alerts.rarities('US-CA').then(results => {
         expect(results.length).to.be.above(1);
         console.log('Pulled some Rarities for CA');
