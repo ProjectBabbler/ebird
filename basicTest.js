@@ -91,6 +91,19 @@ instance.auth('projectbabblertest1', 'babblebabble').then(() => {
         console.log('Pulled some Needs for CA');
     });
 }).then(() => {
+    return instance2.targets.species({
+        location: 'US-CA',
+        startMonth: 7,
+        endMonth: 7,
+        locationFilter: 'aba',
+        timefilter: 'year',
+    }).then(results => {
+        expect(results.length).to.be.above(1);
+        expect(results[0].frequency).to.be.above(1);
+        expect(results[0].species.code).to.not.be.empty;
+        console.log('Pulled some targets for CA');
+    });
+}).then(() => {
     console.log('Tests Pass');
     process.exit(0);
 }).catch((e) => {

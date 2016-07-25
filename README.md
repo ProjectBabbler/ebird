@@ -10,7 +10,7 @@ This package is an api to ebird data.  It uses web scrapers to pull data from th
 
 ## Usage
 
-```
+```javascript
 var ebird = require('ebird');
 
 // Create a new instance of the ebird api.
@@ -42,7 +42,7 @@ Authenticates an ebird instance
 ### `totals.regions()` `totals.countries()` `totals.states()` `totals.counties()`
 This functions all work the same.  They return a personal list of counts for a user for the given location.
 
-```
+```javascript
 {
     "name": place_name,
     "code": ebird_code,
@@ -59,7 +59,7 @@ This functions all work the same.  They return a personal list of counts for a u
 ### `list(ebird_code, time_frame_string, opt_year)`
 Retrieves an array of objects for a bird list.
 
-```
+```javascript
 // Example response. ebird.list('US-CA', 'life');
 [
     {
@@ -80,7 +80,7 @@ Retrieves an array of objects for a bird list.
 ### `alerts.needs(code)` `alerts.rarities(code)`
 Returns an array of sightings for either a needs or a rarities list.
 
-```
+```javascript
 {
     species: {
         name: 'Pin-tailed Whydah ',
@@ -102,6 +102,26 @@ Returns an array of sightings for either a needs or a rarities list.
 }
 ```
 
-
+### targets
+### `targest.species(options)`
+Returns an array of species and frequencies for a user's target birds
+#### Options
+```javascript
+location: Location Code.
+startMonth: Month number 1-12.
+endMonth: Month number 1-12.
+locationFilter: Location code, 'aba', or 'world'.
+timeFilter: 'life', 'year', 'month', or 'day'.
+```
+#### Results
+```javascript
+{
+    species: {
+        name: 'Yellow Warbler',
+        code: 'yelwar'
+    },
+    frequency: 5.77985
+}
+```
 
 
