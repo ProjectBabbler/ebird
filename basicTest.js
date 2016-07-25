@@ -5,11 +5,30 @@ var instance = new ebird();
 var instance2 = new ebird();
 
 
-instance.auth('projectbabblertest1', 'babblebabble').then(() => {
+instance.auth('projectbabblertest1', 'babblebabble').then((token) => {
     console.log('successful login to test 1');
+    return token;
 }).catch(() => {
     console.log('failed to log in');
     process.exit(1);
+}).then((token) => {
+    var instance3 = new ebird(token);
+    // Should use token to log in.  Sending a fake password ensure's it looking at the token.
+    return instance3.auth('projectbabblertest1', 'wrong_password').then((token) => {
+        console.log('Logged in with a token');
+    }).catch(() => {
+        console.log('Using token failed');
+        process.exit(1);
+    });
+}).then(() => {
+    var instance4 = new ebird(12345);
+    // If token is false, fallback to username and password.
+    return instance4.auth('projectbabblertest1', 'babblebabble').then((token) => {
+        console.log('Logged in with username and password when token was invalid');
+    }).catch(() => {
+        console.log('Usename/Password fallback failed');
+        process.exit(1);
+    });
 }).then(() => {
     var instance2 = new ebird();
     return instance2.auth('projectbabblertest1', 'wrong_password').then(() => {

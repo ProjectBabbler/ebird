@@ -32,11 +32,11 @@ instance.auth(username, password).then(() => {
 
 ## API
 
-### constructor `ebird()`
-Constructs an instance of the ebird api.  `var instance = new ebird();`
+### constructor `ebird(opt_sessionToken)`
+Constructs an instance of the ebird api.  `var instance = new ebird();`  If you have a ebird session token you can pass that in the constructor `var instance = new ebird(sessionToken);`.
 
-### `auth(username, password)`
-Authenticates an ebird instance
+### `auth(username, password) returns sessionToken`
+Authenticates an ebird instance.  Returns a session token so you can skip full auth when using a different ebird instance.  Ebird uses phantom js to log in, which can be flaky.  To receive better reliability save the session token between uses to avoid instantiating phantom js.
 
 ### totals
 ### `totals.regions()` `totals.countries()` `totals.states()` `totals.counties()`

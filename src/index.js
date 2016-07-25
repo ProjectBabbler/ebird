@@ -40,8 +40,8 @@ var parseListResponse = (html) => {
 };
 
 class ebird {
-    constructor() {
-        this.session = null;
+    constructor(sessionToken) {
+        this.session = sessionToken;
         this.bindTo('totals', Totals);
         this.bindTo('alerts', Alerts);
         this.bindTo('targets', Targets);
@@ -55,6 +55,29 @@ class ebird {
     }
 
     auth(username, password) {
+        if (this.session) {
+            return request({
+                uri: 'http://ebird.org/ebird/prefs',
+                headers: {
+                    'Cookie': `EBIRD_SESSIONID=${this.session}`
+                },
+                followRedirect: false,
+                resolveWithFullResponse: true,
+            }).then((response) => {
+                if (response.statusCode == 200) {
+                    return this.session;
+                } else {
+                    throw 'Not authed';
+                }
+            }).catch(err => {
+                return this.authWithPassword(username, password);
+            });
+        } else {
+            return this.authWithPassword(username, password);
+        }
+    }
+
+    authWithPassword(username, password) {
         return new Promise((resolve, reject) => {
             phantom.create().then(ph => {
                 ph.createPage().then(page => {
@@ -85,6 +108,7 @@ class ebird {
             });
         }).then((value) => {
             this.session = value;
+            return value;
         });
     }
 
