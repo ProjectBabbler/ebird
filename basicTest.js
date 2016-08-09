@@ -120,6 +120,7 @@ instance.auth('projectbabblertest1', 'babblebabble').then((token) => {
         expect(results.length).to.be.above(1);
         expect(results[0].frequency).to.be.above(1);
         expect(results[0].species.code).to.not.be.empty;
+        expect(results[0].map).to.not.be.empty;
         console.log('Pulled some targets for CA');
     });
 }).then(() => {

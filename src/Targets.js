@@ -23,6 +23,7 @@ var parseResults = (html) => {
                 code: speciesCode,
             },
             frequency,
+            map: `http://ebird.org${mapLocation}`,
         });
     });
 
