@@ -120,7 +120,8 @@ timeFilter: 'life', 'year', 'month', or 'day'.
         name: 'Yellow Warbler',
         code: 'yelwar'
     },
-    frequency: 5.77985
+    frequency: 5.77985,
+    map: 'http://ebird.org/...',
 }
 ```
 
