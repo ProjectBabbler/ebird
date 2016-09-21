@@ -17,12 +17,12 @@
   },
   "homepage": "https://github.com/ProjectBabbler/ebird#readme",
   "dependencies": {
-    "cheerio": "^0.20.0",
-    "csvtojson": "^1.0.0",
-    "phantom": "^2.1.13",
-    "phantomjs-prebuilt": "^2.1.4",
-    "request": "^2.74.0",
-    "request-promise": "^4.0.2",
+    "cheerio": "^0.22.0",
+    "csvtojson": "^1.0.2",
+    "phantom": "^2.1.21",
+    "phantomjs-prebuilt": "^2.1.12",
+    "request": "^2.75.0",
+    "request-promise": "^4.1.1",
     "url-querystring": "^2.1.1"
   },
   "keywords": [
@@ -30,6 +30,6 @@
   ],
   "devDependencies": {
     "chai": "^3.5.0",
-    "eslint": "^3.1.1"
+    "eslint": "^3.5.0"
   }
 }
