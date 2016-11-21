@@ -18,10 +18,10 @@
   "homepage": "https://github.com/ProjectBabbler/ebird#readme",
   "dependencies": {
     "cheerio": "^0.22.0",
-    "csvtojson": "^1.0.2",
-    "phantom": "^2.1.21",
-    "phantomjs-prebuilt": "^2.1.12",
-    "request": "^2.75.0",
+    "csvtojson": "^1.0.3",
+    "phantom": "^3.1.0",
+    "phantomjs-prebuilt": "^2.1.13",
+    "request": "^2.79.0",
     "request-promise": "^4.1.1",
     "url-querystring": "^2.1.1"
   },
@@ -30,6 +30,6 @@
   ],
   "devDependencies": {
     "chai": "^3.5.0",
-    "eslint": "^3.5.0"
+    "eslint": "^3.10.2"
   }
 }
