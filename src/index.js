@@ -1,6 +1,5 @@
 'use strict';
 
-var phantom = require('phantom');
 var Totals = require('./Totals');
 var Alerts = require('./Alerts');
 var Targets = require('./Targets');
@@ -78,37 +77,45 @@ class ebird {
     }
 
     authWithPassword(username, password) {
-        return new Promise((resolve, reject) => {
-            phantom.create().then(ph => {
-                ph.createPage().then(page => {
-                    return page.open('https://secure.birds.cornell.edu/cassso/login?service=https%3A%2F%2Febird.org%2Febird%2Flogin%2Fcas%3Fportal%3Debird').then(() => {
-                        page.on('onLoadFinished', function() {
-                            page.property('cookies').then(cookies => {
-                                var value = '';
-                                cookies.forEach(function(cookie) {
-                                    if (cookie.name == 'EBIRD_SESSIONID') {
-                                        value = cookie.value;
-                                    }
-                                });
-                                ph.exit();
-                                if (value) {
-                                    resolve(value);
-                                } else {
-                                    reject();
-                                }
-                            });
-                        });
-                        page.evaluate(function(username, password) {
-                            document.getElementById('input-user-name').value = username;
-                            document.getElementById('input-password').value = password;
-                            document.getElementById('credentials').submit();
-                        }, username, password);
-                    });
-                });
+        var j = request.jar();
+        let url = 'https://secure.birds.cornell.edu/cassso/login?service=https%3A%2F%2Febird.org%2Febird%2Flogin%2Fcas%3Fportal%3Debird';
+        return request({
+            method: 'GET',
+            uri: url,
+            jar: j,
+        }).then((response) => {
+            let matches = response.match('name="lt" value="(.*)"');
+            return request({
+                method: 'POST',
+                uri: url,
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded',
+                    'Origin': 'https://secure.birds.cornell.edu',
+                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36',
+                    'Referer': url,
+                },
+                form: {
+                    _eventId: 'submit',
+                    execution: 'e1s1',
+                    lt: matches[1],
+                    password: password,
+                    rememberMe: 'on',
+                    username: username,
+                },
+                followAllRedirects: true,
+                resolveWithFullResponse: true,
+                jar: j,
             });
-        }).then((value) => {
-            this.session = value;
-            return value;
+        }).then((response) => {
+            let cookies = j.getCookies('https://ebird.org');
+            let session = cookies.find(cookie => {
+                return cookie.key == 'EBIRD_SESSIONID';
+            });
+            if (!session) {
+                throw 'Invalid Auth';
+            }
+            this.session = session.value;
+            return this.session;
         });
     }
 

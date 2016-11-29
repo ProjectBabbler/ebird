@@ -19,8 +19,6 @@
   "dependencies": {
     "cheerio": "^0.22.0",
     "csvtojson": "^1.0.3",
-    "phantom": "^3.2.0",
-    "phantomjs-prebuilt": "^2.1.13",
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
     "url-querystring": "^2.1.1"
