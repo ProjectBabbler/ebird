@@ -19,7 +19,7 @@
   "dependencies": {
     "cheerio": "^0.22.0",
     "csvtojson": "^1.0.3",
-    "phantom": "^3.1.0",
+    "phantom": "^3.2.0",
     "phantomjs-prebuilt": "^2.1.13",
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
@@ -30,6 +30,6 @@
   ],
   "devDependencies": {
     "chai": "^3.5.0",
-    "eslint": "^3.10.2"
+    "eslint": "^3.11.1"
   }
 }
