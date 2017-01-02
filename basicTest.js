@@ -59,7 +59,7 @@ instance.auth('projectbabblertest1', 'babblebabble').then((token) => {
             code: 'US',
             items: [
                 { listType: 'US', time: 'life', number: '5', listable: true },
-                { listType: 'US', time: 'year', number: '5', listable: true },
+                { listType: 'US', time: 'year', number: '0', listable: true },
                 { listType: 'US', time: 'month', number: '0', listable: true }
             ],
         }]);
