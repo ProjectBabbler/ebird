@@ -38,7 +38,10 @@ var parseResults = (html) => {
             var locationContents = tr.find('td.location').contents();
             var location = locationContents.eq(0).text();
             var latLongUrl = locationContents.eq(1).attr('href');
-            var latLong = extract(latLongUrl).qs.q.split(',');
+            var latLong;
+            if (latLongUrl) {
+                latLong = extract(latLongUrl).qs.q.split(',');
+            }
 
             var county = tr.find('td.county').text();
             var state = tr.find('td.state').text();
@@ -56,8 +59,8 @@ var parseResults = (html) => {
                     date,
                     location: {
                         name: location,
-                        lat: latLong[0],
-                        long: latLong[1],
+                        lat: latLong ? latLong[0] : null,
+                        long: latLong ? latLong[1] : null,
                     },
                     checklist: checklistUrl,
                     county,
