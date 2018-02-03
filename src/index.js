@@ -7,7 +7,7 @@ var request = require('request-promise');
 var cheerio = require('cheerio');
 var extract = require('url-querystring');
 
-var parseListResponse = (html) => {
+var parseListResponse = html => {
     var $ = cheerio.load(html);
     var trs = $('#content table tr');
     var results = [];
@@ -56,21 +56,23 @@ class ebird {
     auth(username, password) {
         if (this.session) {
             return request({
-                uri: 'http://ebird.org/ebird/prefs',
+                uri: 'https://ebird.org/prefs',
                 headers: {
-                    'Cookie': `EBIRD_SESSIONID=${this.session}`
+                    Cookie: `EBIRD_SESSIONID=${this.session}`,
                 },
                 followRedirect: false,
                 resolveWithFullResponse: true,
-            }).then((response) => {
-                if (response.statusCode == 200) {
-                    return this.session;
-                } else {
-                    throw 'Not authed';
-                }
-            }).catch(err => {
-                return this.authWithPassword(username, password);
-            });
+            })
+                .then(response => {
+                    if (response.statusCode == 200) {
+                        return this.session;
+                    } else {
+                        throw 'Not authed';
+                    }
+                })
+                .catch(err => {
+                    return this.authWithPassword(username, password);
+                });
         } else {
             return this.authWithPassword(username, password);
         }
@@ -83,33 +85,35 @@ class ebird {
             method: 'GET',
             uri: url,
             jar: j,
-        }).then((response) => {
-            let matches = response.match('name="lt" value="(.*)"');
-            return request({
-                method: 'POST',
-                uri: url,
-                form: {
-                    _eventId: 'submit',
-                    execution: 'e1s1',
-                    lt: matches[1],
-                    password: password,
-                    username: username,
-                },
-                followAllRedirects: true,
-                resolveWithFullResponse: true,
-                jar: j,
+        })
+            .then(response => {
+                let matches = response.match('name="lt" value="(.*)"');
+                return request({
+                    method: 'POST',
+                    uri: url,
+                    form: {
+                        _eventId: 'submit',
+                        execution: 'e1s1',
+                        lt: matches[1],
+                        password: password,
+                        username: username,
+                    },
+                    followAllRedirects: true,
+                    resolveWithFullResponse: true,
+                    jar: j,
+                });
+            })
+            .then(response => {
+                let cookies = j.getCookies('https://ebird.org');
+                let session = cookies.find(cookie => {
+                    return cookie.key == 'EBIRD_SESSIONID';
+                });
+                if (!session) {
+                    throw 'Invalid Auth';
+                }
+                this.session = session.value;
+                return this.session;
             });
-        }).then((response) => {
-            let cookies = j.getCookies('https://ebird.org');
-            let session = cookies.find(cookie => {
-                return cookie.key == 'EBIRD_SESSIONID';
-            });
-            if (!session) {
-                throw 'Invalid Auth';
-            }
-            this.session = session.value;
-            return this.session;
-        });
     }
 
     list(code, time, year, opts) {
@@ -160,7 +164,7 @@ class ebird {
             uri: 'http://ebird.org/ebird/MyEBird',
             qs: qs,
             headers: {
-                'Cookie': `EBIRD_SESSIONID=${this.session}`
+                Cookie: `EBIRD_SESSIONID=${this.session}`,
             },
         }).then(parseListResponse);
     }
