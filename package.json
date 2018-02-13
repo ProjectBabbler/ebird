@@ -18,9 +18,9 @@
   "homepage": "https://github.com/ProjectBabbler/ebird#readme",
   "dependencies": {
     "cheerio": "^0.22.0",
-    "csvtojson": "^1.0.3",
-    "request": "^2.79.0",
-    "request-promise": "^4.1.1",
+    "csvtojson": "^1.1.9",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
     "url-querystring": "^2.1.1"
   },
   "keywords": [
@@ -28,6 +28,6 @@
   ],
   "devDependencies": {
     "chai": "^3.5.0",
-    "eslint": "^3.11.1"
+    "eslint": "^3.19.0"
   }
 }
