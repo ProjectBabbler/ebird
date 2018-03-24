@@ -4,16 +4,16 @@ var extract = require('url-querystring');
 
 var parseResults = (html) => {
     var $ = cheerio.load(html);
-    var trs = $('#targetsTable tbody tr');
+    var rows = $('.ResultsStat');
     var results = [];
-    trs.each((i, elem) => {
-        var tr = $(elem);
+    rows.each((i, elem) => {
+        var row = $(elem);
 
-        var speciesContent = tr.find('td.species-name').contents();
+        var speciesContent = row.find('.SpecimenHeader').contents();
         var speciesName = speciesContent.eq(0).text().replace(/[\t\n]/g, '');
 
-        let frequency = parseFloat(tr.find('td[headers="freq"]').text().replace(/[\t\n]/g, ''));
-        let mapLocation = tr.find('td[headers="map"] a').attr('href');
+        let frequency = parseFloat(row.find('.Stat-count').text().replace(/[\t\n]/g, ''));
+        let mapLocation = row.find('.ResultsStat-action a').attr('href');
         let paths = extract(mapLocation).url.split('/');
         let speciesCode = paths[paths.length - 1];
 
