@@ -9,8 +9,9 @@ var parseResults = (html) => {
     rows.each((i, elem) => {
         var row = $(elem);
 
-        var speciesContent = row.find('.SpecimenHeader').contents();
-        var speciesName = speciesContent.eq(0).text().replace(/[\t\n]/g, '');
+        var speciesContent = row.find('.SpecimenHeader-both').contents();
+        var speciesSci = row.find('.SpecimenHeader-both .sci').contents().text();
+        var speciesName = speciesContent.text().replace(/[\t\n]/g, '').replace(speciesSci, '');
 
         let frequency = parseFloat(row.find('.Stat-count').text().replace(/[\t\n]/g, ''));
         let mapLocation = row.find('.ResultsStat-action a').attr('href');
