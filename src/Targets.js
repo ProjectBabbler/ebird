@@ -13,7 +13,7 @@ var parseResults = (html) => {
         var speciesSci = row.find('.SpecimenHeader-both .sci').contents().text();
         var speciesName = speciesContent.text().replace(/[\t\n]/g, '').replace(speciesSci, '');
 
-        let frequency = parseFloat(row.find('.Stat-count').text().replace(/[\t\n]/g, ''));
+        let frequency = parseFloat(row.find('.StatsIcon-stat-count').text().replace(/[\t\n]/g, ''));
         let mapLocation = row.find('.ResultsStat-action a').attr('href');
         let paths = extract(mapLocation).url.split('/');
         let speciesCode = paths[paths.length - 1];
