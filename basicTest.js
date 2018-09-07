@@ -102,7 +102,7 @@ instance
             var species = results.map(row => {
                 return row.commonName;
             });
-            expect(species).to.deep.equal(['Western Gull', 'Double-crested Cormorant', 'Rock Pigeon', 'Black Phoebe', 'White-crowned Sparrow']);
+            expect(species).to.deep.equal(['Rock Pigeon', 'Western Gull', 'Double-crested Cormorant', 'Black Phoebe', 'White-crowned Sparrow']);
             console.log('ABA life list has 5 results');
         });
     })
