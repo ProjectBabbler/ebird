@@ -92,7 +92,7 @@ instance
             var species = results.map(row => {
                 return row.commonName;
             });
-            expect(species).to.deep.equal(['Double-crested Cormorant', 'Western Gull', 'Black Phoebe', 'White-crowned Sparrow']);
+            expect(species).to.deep.equal(['Western Gull', 'Double-crested Cormorant', 'Black Phoebe', 'White-crowned Sparrow']);
             console.log('CA 2016 list has 4 results');
         });
     })
@@ -102,7 +102,7 @@ instance
             var species = results.map(row => {
                 return row.commonName;
             });
-            expect(species).to.deep.equal(['Double-crested Cormorant', 'Western Gull', 'Rock Pigeon', 'Black Phoebe', 'White-crowned Sparrow']);
+            expect(species).to.deep.equal(['Western Gull', 'Double-crested Cormorant', 'Rock Pigeon', 'Black Phoebe', 'White-crowned Sparrow']);
             console.log('ABA life list has 5 results');
         });
     })
