@@ -2,7 +2,7 @@ var request = require('request-promise');
 var cheerio = require('cheerio');
 var extract = require('url-querystring');
 
-var parseResults = (html) => {
+var parseResults = html => {
     var $ = cheerio.load(html);
     var rows = $('.ResultsStat');
     var results = [];
@@ -10,10 +10,21 @@ var parseResults = (html) => {
         var row = $(elem);
 
         var speciesContent = row.find('.SpecimenHeader-both').contents();
-        var speciesSci = row.find('.SpecimenHeader-both .sci').contents().text();
-        var speciesName = speciesContent.text().replace(/[\t\n]/g, '').replace(speciesSci, '');
+        var speciesSci = row
+            .find('.SpecimenHeader-both .sci')
+            .contents()
+            .text();
+        var speciesName = speciesContent
+            .text()
+            .replace(/[\t\n]/g, '')
+            .replace(speciesSci, '');
 
-        let frequency = parseFloat(row.find('.StatsIcon-stat-count').text().replace(/[\t\n]/g, ''));
+        let frequency = parseFloat(
+            row
+                .find('.StatsIcon-stat-count')
+                .text()
+                .replace(/[\t\n]/g, '')
+        );
         let mapLocation = row.find('.ResultsStat-action a').attr('href');
         let paths = extract(mapLocation).url.split('/');
         let speciesCode = paths[paths.length - 1];
@@ -21,10 +32,10 @@ var parseResults = (html) => {
         results.push({
             species: {
                 name: speciesName,
-                code: speciesCode,
+                code: speciesCode
             },
             frequency,
-            map: `http://ebird.org${mapLocation}`,
+            map: `http://ebird.org${mapLocation}`
         });
     });
 
@@ -40,11 +51,11 @@ module.exports = {
                 bmo: options.startMonth,
                 emo: options.endMonth,
                 r2: options.locationFilter,
-                t2: options.timeFilter,
+                t2: options.timeFilter
             },
             headers: {
-                'Cookie': `EBIRD_SESSIONID=${this.session}`
+                Cookie: `EBIRD_SESSIONID=${this.session}`
             }
         }).then(parseResults);
-    },
+    }
 };
