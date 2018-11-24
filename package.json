@@ -1,6 +1,6 @@
 {
   "name": "ebird",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "ebird website scraper",
   "main": "./src/index.js",
   "scripts": {
