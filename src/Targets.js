@@ -4,14 +4,14 @@ var extract = require('url-querystring');
 
 var parseResults = html => {
     var $ = cheerio.load(html);
-    var rows = $('.ResultsStat');
+    var rows = $('.ResultsStats');
     var results = [];
     rows.each((i, elem) => {
         var row = $(elem);
 
-        var speciesContent = row.find('.SpecimenHeader-both').contents();
+        var speciesContent = row.find('.SpecimenHeader-joined').contents();
         var speciesSci = row
-            .find('.SpecimenHeader-both .sci')
+            .find('.SpecimenHeader-joined .sci')
             .contents()
             .text();
         var speciesName = speciesContent
@@ -25,7 +25,7 @@ var parseResults = html => {
                 .text()
                 .replace(/[\t\n]/g, '')
         );
-        let mapLocation = row.find('.ResultsStat-action a').attr('href');
+        let mapLocation = row.find('.ResultsStats-action a').attr('href');
         let paths = extract(mapLocation).url.split('/');
         let speciesCode = paths[paths.length - 1];
 
