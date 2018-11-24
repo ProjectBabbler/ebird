@@ -5,7 +5,6 @@ var Alerts = require('./Alerts');
 var Targets = require('./Targets');
 var request = require('request-promise');
 var cheerio = require('cheerio');
-var extract = require('url-querystring');
 
 var parseListResponse = html => {
     var $ = cheerio.load(html);
