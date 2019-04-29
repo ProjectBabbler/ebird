@@ -1,6 +1,6 @@
 var request = require('request-promise');
 
-var parseResults = (results) => {
+var parseResults = results => {
     return results.table.map(row => {
         var items = [];
         for (var i = 1; i < row.length; i++) {
@@ -17,9 +17,9 @@ var parseResults = (results) => {
 module.exports = {
     countries: function() {
         return request({
-            uri: 'http://ebird.org/ebird/listing/country',
+            uri: 'https://ebird.org/listing/country',
             headers: {
-                'Cookie': `EBIRD_SESSIONID=${this.session}`
+                Cookie: `EBIRD_SESSIONID=${this.session}`
             },
             json: true
         }).then(parseResults);
@@ -27,9 +27,9 @@ module.exports = {
 
     states: function() {
         return request({
-            uri: 'http://ebird.org/ebird/listing/states',
+            uri: 'https://ebird.org/listing/states',
             headers: {
-                'Cookie': `EBIRD_SESSIONID=${this.session}`
+                Cookie: `EBIRD_SESSIONID=${this.session}`
             },
             json: true
         }).then(parseResults);
@@ -37,9 +37,9 @@ module.exports = {
 
     counties: function() {
         return request({
-            uri: 'http://ebird.org/ebird/listing/counties',
+            uri: 'https://ebird.org/listing/counties',
             headers: {
-                'Cookie': `EBIRD_SESSIONID=${this.session}`
+                Cookie: `EBIRD_SESSIONID=${this.session}`
             },
             json: true
         }).then(parseResults);
@@ -47,11 +47,11 @@ module.exports = {
 
     regions: function() {
         return request({
-            uri: 'http://ebird.org/ebird/listing/regions',
+            uri: 'https://ebird.org/listing/regions',
             headers: {
-                'Cookie': `EBIRD_SESSIONID=${this.session}`
+                Cookie: `EBIRD_SESSIONID=${this.session}`
             },
             json: true
         }).then(parseResults);
-    },
+    }
 };
