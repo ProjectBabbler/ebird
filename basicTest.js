@@ -112,7 +112,7 @@ instance
             console.log('south_america life list has 0 results');
         });
     })
-    .then(() => {
+    /*.then(() => {
         return instance2.alerts.rarities('US-CA').then((results) => {
             expect(results.length).to.be.above(1);
             console.log('Pulled some Rarities for CA');
@@ -123,7 +123,7 @@ instance
             expect(results.length).to.be.above(1);
             console.log('Pulled some Needs for CA');
         });
-    })
+    })*/
     .then(() => {
         return instance2.targets
             .species({
