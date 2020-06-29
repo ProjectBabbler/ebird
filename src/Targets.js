@@ -1,41 +1,25 @@
 var request = require('request-promise');
 var cheerio = require('cheerio');
-var extract = require('url-querystring');
 
-var parseResults = html => {
+var parseResults = (html) => {
     var $ = cheerio.load(html);
-    var rows = $('.ResultsStats');
+    var trs = $('#targets-results .ResultsStats');
     var results = [];
-    rows.each((i, elem) => {
-        var row = $(elem);
+    trs.each((i, elem) => {
+        var tr = $(elem);
+        var speciesName = tr.find('.ResultsStats-title a').text();
+        var speciesCode = tr.find('.ResultsStats-title a').attr('data-species-code');
 
-        var speciesContent = row.find('.SpecimenHeader-joined').contents();
-        var speciesSci = row
-            .find('.SpecimenHeader-joined .sci')
-            .contents()
-            .text();
-        var speciesName = speciesContent
-            .text()
-            .replace(/[\t\n]/g, '')
-            .replace(speciesSci, '');
-
-        let frequency = parseFloat(
-            row
-                .find('.StatsIcon-stat-count')
-                .text()
-                .replace(/[\t\n]/g, '')
-        );
-        let mapLocation = row.find('.ResultsStats-action a').attr('href');
-        let paths = extract(mapLocation).url.split('/');
-        let speciesCode = paths[paths.length - 1];
+        let frequency = parseFloat(tr.find('.ResultsStats-stats').attr('title'));
+        let mapLocation = tr.find('.ResultsStats-action a').attr('href');
 
         results.push({
             species: {
                 name: speciesName,
-                code: speciesCode
+                code: speciesCode,
             },
             frequency,
-            map: `http://ebird.org${mapLocation}`
+            map: `http://ebird.org${mapLocation}`,
         });
     });
 
@@ -43,7 +27,7 @@ var parseResults = html => {
 };
 
 module.exports = {
-    species: function(options) {
+    species: function (options) {
         return request({
             uri: 'http://ebird.org/ebird/targets',
             qs: {
@@ -51,11 +35,11 @@ module.exports = {
                 bmo: options.startMonth,
                 emo: options.endMonth,
                 r2: options.locationFilter,
-                t2: options.timeFilter
+                t2: options.timeFilter,
             },
             headers: {
-                Cookie: `EBIRD_SESSIONID=${this.session}`
-            }
+                Cookie: `EBIRD_SESSIONID=${this.session}`,
+            },
         }).then(parseResults);
-    }
+    },
 };

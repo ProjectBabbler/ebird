@@ -6,31 +6,25 @@ var Targets = require('./Targets');
 var request = require('request-promise');
 var cheerio = require('cheerio');
 
-var parseListResponse = html => {
+var parseListResponse = (html) => {
     var $ = cheerio.load(html);
-    var trs = $('#content table tr');
+    var lis = $('#results li.Observation');
     var results = [];
-    trs.each((i, elem) => {
-        var tds = $(elem).find('td');
-        if (tds.length == 6) {
-            var row = $(tds[0]).text();
-            var speciesTd = $(tds[1]);
-            var name = speciesTd.text().split(' - ');
-            var speciesCode = speciesTd.find('a').attr('data-species-code');
-            var location = $(tds[2]).text();
-            var sp = $(tds[3]).text();
-            var date = $(tds[4]).text();
+    lis.each((i, elem) => {
+        var row = $(elem).find('.Observation-numberObserved').text().replace('.', '');
+        var speciesEl = $(elem).find('.Observation-species');
+        var name = speciesEl.find('.Heading-main').text();
+        var speciesCode = speciesEl.find('a').attr('data-species-code');
 
-            results.push({
-                rowNumber: row,
-                commonName: name[0].trim(),
-                scientificName: name[1] ? name[1].trim() : null,
-                location: location,
-                sp: sp,
-                date: date,
-                speciesCode: speciesCode
-            });
-        }
+        var location = $(elem).find('.Observation-meta-location a').text();
+        var date = $(elem).find('.Observation-meta a').text();
+        results.push({
+            rowNumber: row,
+            commonName: name,
+            location: location,
+            date: date,
+            speciesCode: speciesCode,
+        });
     });
 
     return results;
@@ -56,19 +50,19 @@ class ebird {
             return request({
                 uri: 'https://ebird.org/prefs',
                 headers: {
-                    Cookie: `EBIRD_SESSIONID=${this.session}`
+                    Cookie: `EBIRD_SESSIONID=${this.session}`,
                 },
                 followRedirect: false,
-                resolveWithFullResponse: true
+                resolveWithFullResponse: true,
             })
-                .then(response => {
+                .then((response) => {
                     if (response.statusCode == 200) {
                         return this.session;
                     } else {
                         throw 'Not authed';
                     }
                 })
-                .catch(err => {
+                .catch((err) => {
                     return this.authWithPassword(username, password);
                 });
         } else {
@@ -78,14 +72,13 @@ class ebird {
 
     authWithPassword(username, password) {
         var j = request.jar();
-        let url =
-            'https://secure.birds.cornell.edu/cassso/login?service=https%3A%2F%2Febird.org%2Febird%2Flogin%2Fcas%3Fportal%3Debird';
+        let url = 'https://secure.birds.cornell.edu/cassso/login?service=https%3A%2F%2Febird.org%2Febird%2Flogin%2Fcas%3Fportal%3Debird';
         return request({
             method: 'GET',
             uri: url,
-            jar: j
+            jar: j,
         })
-            .then(response => {
+            .then((response) => {
                 let matches = response.match('name="lt" value="(.*)"');
                 return request({
                     method: 'POST',
@@ -95,16 +88,16 @@ class ebird {
                         execution: 'e1s1',
                         lt: matches[1],
                         password: password,
-                        username: username
+                        username: username,
                     },
                     followAllRedirects: true,
                     resolveWithFullResponse: true,
-                    jar: j
+                    jar: j,
                 });
             })
-            .then(response => {
+            .then((response) => {
                 let cookies = j.getCookies('https://ebird.org');
-                let session = cookies.find(cookie => {
+                let session = cookies.find((cookie) => {
                     return cookie.key == 'EBIRD_SESSIONID';
                 });
                 if (!session) {
@@ -119,7 +112,7 @@ class ebird {
         opts = opts || {};
         var options = {
             sortKey: opts.sortKey || 'taxon_order',
-            o: opts.o || 'asc'
+            o: opts.o || 'asc',
         };
         var lowerCaseCode = code.toLowerCase();
         var customList = [
@@ -144,7 +137,7 @@ class ebird {
             'aut',
             'spo',
             'aoc',
-            'ioc'
+            'ioc',
         ];
         let qs = {
             cmd: 'list',
@@ -152,7 +145,7 @@ class ebird {
             time: time,
             sortKey: options.sortKey,
             o: options.o,
-            year: year
+            year: year,
         };
 
         if (customList.indexOf(lowerCaseCode) != -1) {
@@ -163,8 +156,8 @@ class ebird {
             uri: 'http://ebird.org/ebird/MyEBird',
             qs: qs,
             headers: {
-                Cookie: `EBIRD_SESSIONID=${this.session}`
-            }
+                Cookie: `EBIRD_SESSIONID=${this.session}`,
+            },
         }).then(parseListResponse);
     }
 }

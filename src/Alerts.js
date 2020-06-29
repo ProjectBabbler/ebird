@@ -1,7 +1,8 @@
+// TODO: Update for new ebird pages.
+
 var request = require('request-promise');
 var cheerio = require('cheerio');
 var extract = require('url-querystring');
-
 
 var parseResults = (html) => {
     var $ = cheerio.load(html);
@@ -75,7 +76,7 @@ var parseResults = (html) => {
 };
 
 module.exports = {
-    needs: function(code) {
+    needs: function (code) {
         return request({
             uri: 'http://ebird.org/ebird/alert/createNeeds',
             qs: {
@@ -87,12 +88,12 @@ module.exports = {
                 action: 'view',
             },
             headers: {
-                'Cookie': `EBIRD_SESSIONID=${this.session}`
-            }
+                Cookie: `EBIRD_SESSIONID=${this.session}`,
+            },
         }).then(parseResults);
     },
 
-    rarities: function(code) {
+    rarities: function (code) {
         return request({
             uri: 'http://ebird.org/ebird/alert/createRba',
             qs: {
@@ -100,8 +101,8 @@ module.exports = {
                 regionCode: code,
             },
             headers: {
-                'Cookie': `EBIRD_SESSIONID=${this.session}`
-            }
+                Cookie: `EBIRD_SESSIONID=${this.session}`,
+            },
         }).then(parseResults);
     },
 };

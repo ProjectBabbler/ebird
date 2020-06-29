@@ -6,7 +6,7 @@ var instance2 = new ebird();
 
 instance
     .auth('projectbabblertest1', 'babblebabble')
-    .then(token => {
+    .then((token) => {
         console.log('successful login to test 1');
         return token;
     })
@@ -14,12 +14,12 @@ instance
         console.log('failed to log in');
         process.exit(1);
     })
-    .then(token => {
+    .then((token) => {
         var instance3 = new ebird(token);
         // Should use token to log in.  Sending a fake password ensure's it looking at the token.
         return instance3
             .auth('projectbabblertest1', 'wrong_password')
-            .then(token => {
+            .then((token) => {
                 console.log('Logged in with a token');
             })
             .catch(() => {
@@ -32,7 +32,7 @@ instance
         // If token is false, fallback to username and password.
         return instance4
             .auth('projectbabblertest1', 'babblebabble')
-            .then(token => {
+            .then((token) => {
                 console.log('Logged in with username and password when token was invalid');
             })
             .catch(() => {
@@ -53,13 +53,13 @@ instance
             });
     })
     .then(() => {
-        return instance.totals.countries().then(results => {
+        return instance.totals.countries().then((results) => {
             expect(results.length).to.equal(0);
             console.log('Counties returns zero results');
         });
     })
     .then(() => {
-        return instance.list('US-VA', 'life').then(results => {
+        return instance.list('US-VA', 'life').then((results) => {
             expect(results.length).to.equal(0);
             console.log('VA life list returns zero results');
         });
@@ -70,7 +70,7 @@ instance
         });
     })
     .then(() => {
-        return instance2.totals.countries().then(results => {
+        return instance2.totals.countries().then((results) => {
             expect(results.length).to.equal(1);
             expect(results).to.deep.equal([
                 {
@@ -87,9 +87,9 @@ instance
         });
     })
     .then(() => {
-        return instance2.list('US-CA', 'year', 2016).then(results => {
+        return instance2.list('US-CA', 'year', 2016).then((results) => {
             expect(results.length).to.equal(4);
-            var species = results.map(row => {
+            var species = results.map((row) => {
                 return row.commonName;
             });
             expect(species).to.deep.equal(['Western Gull', 'Double-crested Cormorant', 'Black Phoebe', 'White-crowned Sparrow']);
@@ -97,9 +97,9 @@ instance
         });
     })
     .then(() => {
-        return instance2.list('ABA', 'life').then(results => {
+        return instance2.list('ABA', 'life').then((results) => {
             expect(results.length).to.equal(5);
-            var species = results.map(row => {
+            var species = results.map((row) => {
                 return row.commonName;
             });
             expect(species).to.deep.equal(['Rock Pigeon', 'Western Gull', 'Double-crested Cormorant', 'Black Phoebe', 'White-crowned Sparrow']);
@@ -107,19 +107,19 @@ instance
         });
     })
     .then(() => {
-        return instance2.list('south_america', 'life').then(results => {
+        return instance2.list('south_america', 'life').then((results) => {
             expect(results).to.deep.equal([]);
             console.log('south_america life list has 0 results');
         });
     })
     .then(() => {
-        return instance2.alerts.rarities('US-CA').then(results => {
+        return instance2.alerts.rarities('US-CA').then((results) => {
             expect(results.length).to.be.above(1);
             console.log('Pulled some Rarities for CA');
         });
     })
     .then(() => {
-        return instance2.alerts.needs('US-CA').then(results => {
+        return instance2.alerts.needs('US-CA').then((results) => {
             expect(results.length).to.be.above(1);
             console.log('Pulled some Needs for CA');
         });
@@ -133,7 +133,7 @@ instance
                 locationFilter: 'US-CA',
                 timefilter: 'year',
             })
-            .then(results => {
+            .then((results) => {
                 expect(results.length).to.be.above(1);
                 expect(results[0].frequency).to.be.above(1);
                 expect(results[0].species.code).to.not.be.empty;
@@ -146,7 +146,7 @@ instance
         console.log('Tests Pass');
         process.exit(0);
     })
-    .catch(e => {
+    .catch((e) => {
         console.log(e);
         process.exit(1);
     });
