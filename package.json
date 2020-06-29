@@ -1,33 +1,33 @@
 {
-  "name": "ebird",
-  "version": "1.0.8",
-  "description": "ebird website scraper",
-  "main": "./src/index.js",
-  "scripts": {
-    "test": "node basicTest.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ProjectBabbler/ebird.git"
-  },
-  "author": "Greg Schechter",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ProjectBabbler/ebird/issues"
-  },
-  "homepage": "https://github.com/ProjectBabbler/ebird#readme",
-  "dependencies": {
-    "cheerio": "^0.22.0",
-    "csvtojson": "^1.1.9",
-    "request": "^2.83.0",
-    "request-promise": "^4.2.2",
-    "url-querystring": "^2.1.1"
-  },
-  "keywords": [
-    "ebird"
-  ],
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "eslint": "^3.19.0"
-  }
+    "name": "ebird",
+    "version": "2.0.0",
+    "description": "ebird website scraper",
+    "main": "./src/index.js",
+    "scripts": {
+        "test": "node basicTest.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ProjectBabbler/ebird.git"
+    },
+    "author": "Greg Schechter",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/ProjectBabbler/ebird/issues"
+    },
+    "homepage": "https://github.com/ProjectBabbler/ebird#readme",
+    "dependencies": {
+        "cheerio": "^0.22.0",
+        "csvtojson": "^1.1.9",
+        "request": "^2.83.0",
+        "request-promise": "^4.2.2",
+        "url-querystring": "^2.1.1"
+    },
+    "keywords": [
+        "ebird"
+    ],
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "eslint": "^3.19.0"
+    }
 }
