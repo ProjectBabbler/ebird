@@ -8,6 +8,8 @@ var parseResults = (html) => {
     trs.each((i, elem) => {
         var tr = $(elem);
         var speciesName = tr.find('.ResultsStats-title a').text();
+        var scientificName = tr.find('.ResultsStats-title a em').text();
+        speciesName = speciesName.replace(scientificName, '').trim();
         var speciesCode = tr.find('.ResultsStats-title a').attr('data-species-code');
 
         let frequency = parseFloat(tr.find('.ResultsStats-stats').attr('title'));
